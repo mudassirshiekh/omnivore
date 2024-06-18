@@ -11,6 +11,7 @@ import {
   EXISTING_NEWSLETTER_FOLDER,
   NewsletterEmail,
 } from '../entity/newsletter_email'
+import { Post } from '../entity/post'
 import { PublicItem } from '../entity/public_item'
 import { Recommendation } from '../entity/recommendation'
 import {
@@ -158,7 +159,7 @@ import {
 } from './recent_emails'
 import { recentSearchesResolver } from './recent_searches'
 import { subscriptionResolver } from './subscriptions'
-import { WithDataSourcesContext } from './types'
+import { ResolverContext, WithDataSourcesContext } from './types'
 import { updateEmailResolver } from './user'
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -801,19 +802,25 @@ export const functionResolvers = {
     recommendedAt: (recommendation: Recommendation) => recommendation.createdAt,
   },
   Post: {
-    author(post: { userId: string }, _: unknown, ctx: WithDataSourcesContext) {
+    author(post: Post, _: never, ctx: ResolverContext) {
       return ctx.dataLoaders.users.load(post.userId)
     },
-    ownedByViewer(post: { userId: string }, ctx: WithDataSourcesContext) {
-      return post.userId === ctx.uid
+    ownedByViewer(post: Post, _: never, ctx: ResolverContext) {
+      console.log('ownedByViewer: ctx.claims?.uid', ctx.claims?.uid)
+      return post.userId === ctx.claims?.uid
     },
     libraryItems(
       post: { libraryItemIds: string[] },
-      ctx: WithDataSourcesContext
+      _: never,
+      ctx: ResolverContext
     ) {
       return ctx.dataLoaders.libraryItems.loadMany(post.libraryItemIds)
     },
-    highlights(post: { highlightIds: string[] }, ctx: WithDataSourcesContext) {
+    highlights(
+      post: { highlightIds: string[] },
+      _: never,
+      ctx: ResolverContext
+    ) {
       return ctx.dataLoaders.highlights.loadMany(post.highlightIds)
     },
   },

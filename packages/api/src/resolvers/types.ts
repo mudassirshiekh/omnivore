@@ -14,7 +14,6 @@ import { Recommendation } from '../entity/recommendation'
 import { Subscription } from '../entity/subscription'
 import { UploadFile } from '../entity/upload_file'
 import { User } from '../entity/user'
-import { HomeItem } from '../generated/graphql'
 import { PubsubClient } from '../pubsub'
 
 export interface Claims {
