@@ -153,6 +153,7 @@ import {
 } from './index'
 import {
   createPostResolver,
+  deletePostResolver,
   postResolver,
   postsResolver,
   updatePostResolver,
@@ -325,6 +326,7 @@ export const functionResolvers = {
     deleteFolderPolicy: deleteFolderPolicyResolver,
     createPost: createPostResolver,
     updatePost: updatePostResolver,
+    deletePost: deletePostResolver,
   },
   Query: {
     me: getMeUserResolver,
@@ -934,4 +936,5 @@ export const functionResolvers = {
   ...resultResolveTypeResolver('Post'),
   ...resultResolveTypeResolver('CreatePost'),
   ...resultResolveTypeResolver('UpdatePost'),
+  ...resultResolveTypeResolver('DeletePost'),
 }
